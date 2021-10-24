@@ -19,6 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 break;
             }
         }
+
         if (flag) {
             throw new EmployeeArrayIsFilledException();
         }
@@ -27,13 +28,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(String firstName, String lastName) {
         boolean flag = true;
-        for (Employee employee : employees) {
-            if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
-                employee = null;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null) {
+                break;
+            }
+            if (employees[i].getFirstName().equals(firstName) && employees[i].getLastName().equals(lastName)) {
+                employees[i] = null;
                 flag = false;
+                break;
             }
         }
-        if(flag) {
+        if (flag) {
             throw new EmployeeNotFoundException();
         }
     }
@@ -41,6 +46,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployee(String firstName, String lastName) {
         for (Employee employee : employees) {
+            if (employee == null) {
+                break;
+            }
             if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
                 return employee;
             }
