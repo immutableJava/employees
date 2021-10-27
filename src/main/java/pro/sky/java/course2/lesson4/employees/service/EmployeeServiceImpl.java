@@ -26,11 +26,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployee(String firstName, String lastName) {
+    public void deleteCurrentEmployee(String firstName, String lastName) {
         boolean flag = true;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
-                break;
+                continue;
             }
             if (employees[i].getFirstName().equals(firstName) && employees[i].getLastName().equals(lastName)) {
                 employees[i] = null;
@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findEmployee(String firstName, String lastName) {
         for (Employee employee : employees) {
             if (employee == null) {
-                break;
+                continue;
             }
             if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
                 return employee;
