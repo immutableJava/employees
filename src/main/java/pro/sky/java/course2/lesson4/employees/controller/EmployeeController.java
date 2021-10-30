@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @GetMapping("/delete")
     public String showInfoAboutDeleteEmp(@RequestParam String firstName, @RequestParam String lastName) {
-        employeeService.deleteCurrentEmployee(firstName, lastName);
+        employeeService.deleteEmployee(firstName, lastName);
         return String.format("Сотрудник %s %s удален.", firstName, lastName);
     }
 

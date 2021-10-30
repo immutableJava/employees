@@ -11,34 +11,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmployee(String firstName, String lastName) {
-        boolean flag = true;
+        boolean isEmpArrayFull = true;
         for (int i = 0; i < employees.length; i++) {
             if(employees[i] == null){
-                employees[i] = new Employee(firstName,lastName);
-                flag = false;
+                employees[i] = new Employee(firstName, lastName);
+                isEmpArrayFull = false;
                 break;
             }
         }
 
-        if (flag) {
+        if (isEmpArrayFull) {
             throw new EmployeeArrayIsFilledException();
         }
     }
 
     @Override
-    public void deleteCurrentEmployee(String firstName, String lastName) {
-        boolean flag = true;
+    public void deleteEmployee(String firstName, String lastName) {
+        boolean isExists = true;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
                 continue;
             }
             if (employees[i].getFirstName().equals(firstName) && employees[i].getLastName().equals(lastName)) {
                 employees[i] = null;
-                flag = false;
+                isExists = false;
                 break;
             }
         }
-        if (flag) {
+        if (isExists) {
             throw new EmployeeNotFoundException();
         }
     }
