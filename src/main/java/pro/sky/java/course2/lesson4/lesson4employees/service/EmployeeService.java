@@ -1,7 +1,7 @@
-package pro.sky.java.course2.lesson4.employeesWithCollections.service;
+package pro.sky.java.course2.lesson4.lesson4employees.service;
 
 
-import pro.sky.java.course2.lesson4.employeesWithCollections.Employee;
+import pro.sky.java.course2.lesson4.lesson4employees.Employee;
 
 import java.util.Set;
 

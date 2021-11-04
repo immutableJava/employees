@@ -1,4 +1,4 @@
-package pro.sky.java.course2.lesson4.employeesWithCollections;
+package pro.sky.java.course2.lesson4.lesson4employees;
 
 import java.util.Objects;
 
