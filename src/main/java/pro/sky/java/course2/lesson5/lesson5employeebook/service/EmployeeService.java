@@ -3,7 +3,7 @@ package pro.sky.java.course2.lesson5.lesson5employeebook.service;
 
 import pro.sky.java.course2.lesson5.lesson5employeebook.Employee;
 
-import java.util.Map;
+import java.util.List;
 
 
 public interface EmployeeService {
@@ -13,5 +13,5 @@ public interface EmployeeService {
 
     Employee findEmployee(String firstName, String lastName);
 
-    Map<String, Employee> withdrawAllEmployees();
+    List<Employee> withdrawAllEmployees();
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.java.course2.lesson5.lesson5employeebook.Employee;
 import pro.sky.java.course2.lesson5.lesson5employeebook.service.EmployeeService;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -45,7 +45,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/withdraw")
-    public Map<String, Employee> showInfoAboutFindEmp() {
+    public List<Employee> showInfoAboutFindEmp() {
         return employeeService.withdrawAllEmployees();
     }
 }
