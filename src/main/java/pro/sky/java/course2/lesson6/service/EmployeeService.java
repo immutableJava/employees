@@ -13,9 +13,6 @@ public interface EmployeeService {
 
     Employee findEmployee(String fullName);
 
-    Employee findEmpWithMaxSalaryInCurrentDepartment(int department);
+    List<Employee> withdrawAllEmployees();
 
-    Employee findEmpWithMinSalaryInCurrentDepartment(int department);
-
-    List<Employee> outputEmployees(Integer department);
 }
