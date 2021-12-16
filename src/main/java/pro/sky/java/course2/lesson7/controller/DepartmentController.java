@@ -1,4 +1,4 @@
-package pro.sky.java.course2.lesson7.departmentcontroller;
+package pro.sky.java.course2.lesson7.controller;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,25 +12,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/department")
-public class EmployeeDepartmentController {
-    private final EmployeeDepartmentService employeeDepartmentService;
+public class DepartmentController {
+    private final DepartmentService departmentService;
 
-    public EmployeeDepartmentController(EmployeeDepartmentService employeeDepartmentService) {
-        this.employeeDepartmentService = employeeDepartmentService;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/max-salary")
     public Employee findEmpWithMaxSalary(@RequestParam int department) {
-        return employeeDepartmentService.findEmpWithMaxSalary(department);
+        return departmentService.findEmpWithMaxSalary(department);
     }
 
     @GetMapping("//min-salary")
     public Employee findEmpWithMinSalary(@RequestParam int department) {
-        return employeeDepartmentService.findEmpWithMinSalary(department);
+        return departmentService.findEmpWithMinSalary(department);
     }
 
     @GetMapping("/all")
     public List<Employee> showEmps(@Nullable Integer department) {
-        return employeeDepartmentService.outputEmployees(department);
+        return departmentService.outputEmployees(department);
     }
 }

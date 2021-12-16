@@ -1,18 +1,21 @@
-package pro.sky.java.course2.lesson7.departmentservice;
+package pro.sky.java.course2.lesson7.service;
 
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.lesson7.Employee;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class EmployeeDepartmentServiceImpl implements EmployeeDepartmentService {
-    Map<String, Employee> employees = new HashMap<>();
+public class DepartmentServiceImpl implements DepartmentService {
+
+    private final EmployeeService employeeService;
+
+    public DepartmentServiceImpl(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     public Employee findEmpWithMinSalary(int department) {
         return employees.values().stream()
