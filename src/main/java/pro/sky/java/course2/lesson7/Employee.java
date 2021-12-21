@@ -29,7 +29,7 @@ public class Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
+        pro.sky.java.course2.lesson7.Employee employee = (pro.sky.java.course2.lesson7.Employee) o;
         return Double.compare(employee.salary, salary) == 0 && department == employee.department && Objects.equals(fullName, employee.fullName);
     }
 

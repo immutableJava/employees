@@ -1,11 +1,11 @@
-package pro.sky.java.course2.lesson7.departmentservice;
+package pro.sky.java.course2.lesson7.service;
 
 
 import pro.sky.java.course2.lesson7.Employee;
 
 import java.util.List;
 
-public interface EmployeeDepartmentService {
+public interface DepartmentService {
     Employee findEmpWithMaxSalary(int department);
 
     Employee findEmpWithMinSalary(int department);
