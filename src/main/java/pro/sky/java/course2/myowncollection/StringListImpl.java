@@ -4,126 +4,85 @@ import java.util.Arrays;
 
 public class StringListImpl implements StringList {
     private String[] storage;
-    private int size = 0;
+    private int size;
 
     public StringListImpl() {
-        storage = new String[size];
+        storage = new String[size()];
+        size = size();
+    }
+
+    public static void validateItem(String item) {
+        if (item == null) {
+            throw new NullInputParameterException();
+        }
     }
 
     @Override
     public String add(String item) {
-        if (item == null) {
-            throw new NullPointerException();
+        if (size == storage.length) {
+            storage = Arrays.copyOf(storage, size * 2);
         }
-        size++;
-        storage = Arrays.copyOf(storage, size);
+        validateItem(item);
         storage[size - 1] = item;
+        size++;
         return item;
     }
 
     @Override
     public String add(int index, String item) {
-        if (item == null) {
-            throw new NullPointerException();
+        if (size == storage.length) {
+            storage = Arrays.copyOf(storage, size * 2);
         }
-        if (index > size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        validateItem(item);
+        validateIndex(index);
+        storage[index] = item;
         size++;
-        String[] strings = new String[size];
-        for (int i = 0, j = 0; i < strings.length && j < strings.length; i++, j++) {
-            if (i != index) {
-                strings[i] = Arrays.copyOf(storage, size)[j];
-            } else {
-                strings[i] = item;
-                j--;
-            }
-        }
-        storage = strings;
         return item;
     }
 
     @Override
     public String set(int index, String item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException();
-        }
+        validateItem(item);
+        validateIndex(index);
         storage[index] = item;
         return item;
     }
 
     @Override
     public String remove(String item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
+        validateItem(item);
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].equals(item)) {
-                size--;
-                storage[i] = null;
-                String[] strings = new String[size];
-                for (int j = 0, k = 0; j < storage.length && k < storage.length; j++, k++) {
-                    if (storage[j] != null) {
-                        strings[k] = storage[j];
-                    } else {
-                        k--;
-                    }
-                }
-                storage = strings;
-                return item;
+                break;
+            }
+            if (i == storage.length - 1) {
+                throw new ElementNotFoundException();
             }
         }
-        throw new ElementNotFoundException();
+        System.arraycopy(storage, indexOf(item) + 1, storage, indexOf(item), storage.length - indexOf(item) - 1);
+        return item;
     }
 
     @Override
     public String remove(int index) {
-
-        if (index < 0 || index > size) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        String result = storage[index];
-        size--;
-        storage[index] = null;
-        String[] strings = new String[size];
-        for (int i = 0, j = 0; i < storage.length && j < storage.length; i++, j++) {
-            if (storage[i] != null) {
-                strings[j] = storage[i];
-            } else {
-                j--;
+        validateIndex(index);
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].equals(storage[index])) {
+                break;
+            }
+            if (i == storage.length - 1) {
+                throw new ElementNotFoundException();
             }
         }
-        storage = strings;
-        return result;
+        String item = storage[index];
+        System.arraycopy(storage, index + 1, storage, index, storage.length - index - 1);
+        return item;
     }
 
     @Override
     public boolean contains(String item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
-        for (String current : storage) {
-            if (current.equals(item)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public int indexOf(String item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i].equals(item)) {
-                return i;
-            }
-        }
-        return -1;
+        validateItem(item);
+        return indexOf(item) != -1;
     }
 
     @Override
@@ -140,21 +99,29 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String get(int index) {
-        if (index < storage.length)
-            return storage[index];
-        else {
-            throw new IndexOutOfBoundsException();
+    public int indexOf(String item) {
+        validateItem(item);
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].equals(item)) {
+                return i;
+            }
         }
+        return -1;
+    }
+
+    @Override
+    public String get(int index) {
+        validateIndex(index);
+        return storage[index];
     }
 
     @Override
     public boolean equals(StringList otherList) {
 
         if (otherList == null) {
-            throw new NullPointerException();
+            throw new NullInputParameterException();
         }
-        if (storage.length != otherList.size()) {
+        if (size() != otherList.size()) {
             return false;
         }
         for (int i = 0; i < storage.length; i++) {
@@ -167,21 +134,27 @@ public class StringListImpl implements StringList {
 
     @Override
     public int size() {
-        return storage.length;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return storage.length == 0;
+        return size == 0;
     }
 
     @Override
     public void clear() {
-        storage = new String[0];
+        size = 0;
     }
 
     @Override
     public String[] toArray() {
-        return storage;
+        return Arrays.copyOf(storage, size);
+    }
+
+    public void validateIndex(int index) {
+        if (index > size || index < 0) {
+            throw new BeyondTheSizeException();
+        }
     }
 }
