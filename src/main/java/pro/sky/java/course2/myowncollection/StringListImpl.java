@@ -7,8 +7,7 @@ public class StringListImpl implements StringList {
     private int size;
 
     public StringListImpl() {
-        storage = new String[size()];
-        size = size();
+        storage = new String[10];
     }
 
     public static void validateItem(String item) {
@@ -17,22 +16,23 @@ public class StringListImpl implements StringList {
         }
     }
 
+    public static void validateList(StringList otherList) {
+        if (otherList == null) {
+            throw new NullInputParameterException();
+        }
+    }
+
     @Override
     public String add(String item) {
-        if (size == storage.length) {
-            storage = Arrays.copyOf(storage, size * 2);
-        }
+        grow();
         validateItem(item);
-        storage[size - 1] = item;
-        size++;
+        storage[size++] = item;
         return item;
     }
 
     @Override
     public String add(int index, String item) {
-        if (size == storage.length) {
-            storage = Arrays.copyOf(storage, size * 2);
-        }
+        grow();
         validateItem(item);
         validateIndex(index);
         storage[index] = item;
@@ -51,31 +51,27 @@ public class StringListImpl implements StringList {
     @Override
     public String remove(String item) {
         validateItem(item);
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i].equals(item)) {
-                break;
-            }
-            if (i == storage.length - 1) {
-                throw new ElementNotFoundException();
-            }
+        if (indexOf(item) == -1) {
+            throw new ElementNotFoundException();
+        } else {
+            int i = indexOf(item);
+            System.arraycopy(storage, i + 1, storage, i, storage.length - i - 1);
+            size--;
         }
-        System.arraycopy(storage, indexOf(item) + 1, storage, indexOf(item), storage.length - indexOf(item) - 1);
         return item;
     }
 
     @Override
     public String remove(int index) {
         validateIndex(index);
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i].equals(storage[index])) {
-                break;
-            }
-            if (i == storage.length - 1) {
-                throw new ElementNotFoundException();
-            }
-        }
         String item = storage[index];
-        System.arraycopy(storage, index + 1, storage, index, storage.length - index - 1);
+        if (indexOf(get(index)) == -1) {
+            throw new ElementNotFoundException();
+        } else {
+            int i = indexOf(item);
+            System.arraycopy(storage, i + 1, storage, i, storage.length - i - 1);
+            size--;
+        }
         return item;
     }
 
@@ -115,12 +111,16 @@ public class StringListImpl implements StringList {
         return storage[index];
     }
 
+    public void grow() {
+        if (size == storage.length) {
+            storage = Arrays.copyOf(storage, size * 2);
+        }
+    }
+
     @Override
     public boolean equals(StringList otherList) {
 
-        if (otherList == null) {
-            throw new NullInputParameterException();
-        }
+        validateList(otherList);
         if (size() != otherList.size()) {
             return false;
         }
